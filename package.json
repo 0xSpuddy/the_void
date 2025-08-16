@@ -1,0 +1,38 @@
+{
+  "name": "the_void",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "hardhat test",
+    "test:verbose": "hardhat test --verbose",
+    "compile": "hardhat compile",
+    "node": "hardhat node",
+    "console": "hardhat console",
+    "demo": "hardhat run scripts/demo.js",
+    "shout": "hardhat run scripts/shout.js",
+    "deploy": "hardhat run scripts/deploy.js",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xSpuddy/the_void.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/0xSpuddy/the_void/issues"
+  },
+  "homepage": "https://github.com/0xSpuddy/the_void#readme",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/contracts": "^5.4.0",
+    "ethers": "^6.15.0",
+    "hardhat": "^2.26.3"
+  },
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^17.2.1"
+  }
+}

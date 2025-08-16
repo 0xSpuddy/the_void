@@ -1,0 +1,21 @@
+{
+  "network": "sepolia",
+  "chainId": "11155111",
+  "contracts": {
+    "EchoToken": "0xFfC06A5415ff1539FBb473A3b09339B8a5D8Ee53",
+    "TheVoidUnsafe": "0xC20C86437C8A9b0207706b8aDe98892Cf452f502"
+  },
+  "deployer": "0x90A7F615A2Bf185Bb3f76Ed07Afc0D23359625D6",
+  "deploymentBlock": 8999867,
+  "timestamp": "2025-08-16T22:56:13.517Z",
+  "echoToken": {
+    "name": "Echo Token",
+    "symbol": "ECHO",
+    "decimals": "18",
+    "totalSupply": "0.0"
+  },
+  "theVoidUnsafe": {
+    "tokenAddress": "0xC20C86437C8A9b0207706b8aDe98892Cf452f502",
+    "stakeAmount": "0.0"
+  }
+}

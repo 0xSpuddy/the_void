@@ -1,0 +1,215 @@
+.app {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+  color: white;
+  font-family: 'Arial', sans-serif;
+}
+
+.landing-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+}
+
+.landing-container h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.landing-container p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #ccc;
+}
+
+.connect-button {
+  background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 1rem;
+}
+
+.connect-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+.connect-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.main-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.main-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid #333;
+  padding-bottom: 2rem;
+}
+
+.main-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.user-info p {
+  color: #ccc;
+  font-size: 1rem;
+}
+
+.main-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.input-section, .void-section {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.input-section h2, .void-section h2 {
+  margin-bottom: 1.5rem;
+  color: #4ecdc4;
+}
+
+.input-container {
+  margin-bottom: 1.5rem;
+}
+
+.text-input {
+  width: 100%;
+  min-height: 120px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 1rem;
+  color: white;
+  font-size: 1rem;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.text-input::placeholder {
+  color: #aaa;
+}
+
+.text-input:focus {
+  outline: none;
+  border-color: #4ecdc4;
+  box-shadow: 0 0 10px rgba(78, 205, 196, 0.3);
+}
+
+.character-count {
+  text-align: right;
+  margin-top: 0.5rem;
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.button-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.shout-button, .hashed-shout-button {
+  flex: 1;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.shout-button {
+  background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+  color: white;
+}
+
+.hashed-shout-button {
+  background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+  color: white;
+}
+
+.shout-button:hover:not(:disabled), .hashed-shout-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.shout-button:disabled, .hashed-shout-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.void-container {
+  text-align: center;
+  padding: 2rem;
+}
+
+.void-container p {
+  color: #ccc;
+  margin-bottom: 2rem;
+  font-style: italic;
+}
+
+.void-visualization {
+  font-size: 5rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+.error {
+  color: #ff6b6b;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background: rgba(255, 107, 107, 0.1);
+  border-radius: 5px;
+  border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .landing-container h1 {
+    font-size: 2rem;
+  }
+  
+  .main-header h1 {
+    font-size: 2rem;
+  }
+}

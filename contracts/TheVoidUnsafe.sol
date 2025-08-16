@@ -155,7 +155,7 @@ contract TheVoidUnsafe {
      * @param _queryData the data used by shouters to fulfill the data query
      */
     // slither-disable-next-line timestamp
-    function submitValue(
+    function shout(
         bytes32 _queryId,
         bytes calldata _value,
         uint256 _nonce,

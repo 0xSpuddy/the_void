@@ -20,35 +20,8 @@ async function main() {
 
   const deployedContracts = {};
 
-  // Deploy the EchoToken contract
-  console.log("🔨 Deploying EchoToken...");
-  const EchoToken = await ethers.getContractFactory("EchoToken");
-  
-  // Deploy with name and symbol for EchoToken
-  const echoToken = await EchoToken.deploy("Echo Token", "ECHO");
-  
-  // Wait for deployment to finish
-  await echoToken.waitForDeployment();
-  
-  const echoTokenAddress = await echoToken.getAddress();
-  console.log("✅ EchoToken deployed to:", echoTokenAddress);
-  deployedContracts.EchoToken = echoTokenAddress;
-  
-  // Get deployment info for EchoToken
-  const totalSupply = await echoToken.totalSupply();
-  const decimals = await echoToken.decimals();
-  const name = await echoToken.name();
-  const symbol = await echoToken.symbol();
-  
-  console.log("\n📊 EchoToken Information:");
-  console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-  console.log("🏷️  Name:", name);
-  console.log("🔤 Symbol:", symbol);
-  console.log("🔢 Decimals:", decimals.toString());
-  console.log("📦 Total Supply:", ethers.formatEther(totalSupply), "ECHO");
-
-  // Deploy TheVoidUnsafe contract
-  console.log("\n🔨 Deploying TheVoidUnsafe...");
+  // Deploy TheVoidUnsafe contract (unified token + oracle)
+  console.log("🔨 Deploying TheVoidUnsafe (unified token + oracle contract)...");
   const TheVoidUnsafe = await ethers.getContractFactory("TheVoidUnsafe");
   
   // Deploy TheVoidUnsafe - it has its own token built-in
@@ -61,14 +34,22 @@ async function main() {
   console.log("✅ TheVoidUnsafe deployed to:", voidAddress);
   deployedContracts.TheVoidUnsafe = voidAddress;
   
-  // Get TheVoidUnsafe info
+  // Get TheVoidUnsafe token info (it's also an ERC20 token)
   const voidTokenAddress = await theVoidUnsafe.token();
   const stakeAmount = await theVoidUnsafe.stakeAmount();
+  const name = await theVoidUnsafe.name();
+  const symbol = await theVoidUnsafe.symbol();
+  const decimals = await theVoidUnsafe.decimals();
+  const totalSupply = await theVoidUnsafe.totalSupply();
   
-  console.log("\n📊 TheVoidUnsafe Information:");
+  console.log("\n📊 TheVoidUnsafe (Token + Oracle) Information:");
   console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+  console.log("🏷️  Token Name:", name);
+  console.log("🔤 Token Symbol:", symbol);
+  console.log("🔢 Decimals:", decimals.toString());
+  console.log("📦 Total Supply:", ethers.formatEther(totalSupply), symbol);
   console.log("🪙 Token Address:", voidTokenAddress);
-  console.log("🔒 Stake Amount:", ethers.formatEther(stakeAmount), "ECHO");
+  console.log("🔒 Stake Amount:", ethers.formatEther(stakeAmount), symbol);
   
   console.log("\n🎉 Deployment completed successfully!");
   console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -82,14 +63,13 @@ async function main() {
     deployer: deployer.address,
     deploymentBlock: await ethers.provider.getBlockNumber(),
     timestamp: new Date().toISOString(),
-    echoToken: {
-      name: name,
-      symbol: symbol,
-      decimals: decimals.toString(),
-      totalSupply: ethers.formatEther(totalSupply)
-    },
     theVoidUnsafe: {
+      address: voidAddress,
       tokenAddress: voidTokenAddress,
+      tokenName: name,
+      tokenSymbol: symbol,
+      decimals: decimals.toString(),
+      totalSupply: ethers.formatEther(totalSupply),
       stakeAmount: ethers.formatEther(stakeAmount)
     }
   };
@@ -107,13 +87,27 @@ async function main() {
   console.log("📄 Deployment info saved to:", deploymentFile);
   
   // Verification instructions
-  console.log("\n🔍 To verify the contracts, run:");
-  console.log(`npx hardhat verify --network sepolia ${echoTokenAddress} "Echo Token" "ECHO"`);
+  console.log("\n🔍 To verify the contract, run:");
   console.log(`npx hardhat verify --network sepolia ${voidAddress}`);
+  
+  // Usage instructions
+  console.log("\n💡 Usage Instructions:");
+  console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+  console.log("🪙 Token Functions:");
+  console.log(`   • faucet(address) - Mint 1000 ${symbol} tokens for testing`);
+  console.log(`   • transfer(to, amount) - Transfer ${symbol} tokens`);
+  console.log(`   • balanceOf(address) - Check ${symbol} balance`);
+  console.log("🔊 Oracle Functions:");
+  console.log("   • shout(queryId, value, nonce, queryData) - Submit data");
+  console.log("   • retrieveData(queryId, timestamp) - Get submitted data");
+  console.log("   • getDataBefore(queryId, timestamp) - Get latest data before timestamp");
+  console.log("🔒 Staking Functions:");
+  console.log("   • depositStake(amount) - Stake tokens");
+  console.log("   • requestStakingWithdraw(amount) - Request withdrawal");
+  console.log("   • withdrawStake() - Withdraw after 7 days");
   
   return {
     deployedContracts,
-    echoToken,
     theVoidUnsafe,
     deploymentInfo
   };

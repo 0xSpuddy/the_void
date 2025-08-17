@@ -1,44 +1,9 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/home/spuddy/projects/the_void/contracts/EchoToken.sol": {
-      "lastModificationDate": 1755377781093,
-      "contentHash": "702b8034305bc52694a76c99624fb29a",
-      "sourceName": "contracts/EchoToken.sol",
-      "solcConfig": {
-        "version": "0.8.19",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "0.8.19"
-      ],
-      "artifacts": [
-        "EchoToken"
-      ]
-    },
     "/home/spuddy/projects/the_void/contracts/TheVoidUnsafe.sol": {
-      "lastModificationDate": 1755379032219,
-      "contentHash": "e0b0486f1c6b7f227b46b8b8003c8d16",
+      "lastModificationDate": 1755390743908,
+      "contentHash": "eb24147f37b36d6c7fafe5990102e4a0",
       "sourceName": "contracts/TheVoidUnsafe.sol",
       "solcConfig": {
         "version": "0.8.19",
@@ -69,41 +34,6 @@
       ],
       "artifacts": [
         "TheVoidUnsafe"
-      ]
-    },
-    "/home/spuddy/projects/the_void/contracts/interfaces/IERC20.sol": {
-      "lastModificationDate": 1755377034151,
-      "contentHash": "3e4bb40126fc7c2e0669dc4828c7ab87",
-      "sourceName": "contracts/interfaces/IERC20.sol",
-      "solcConfig": {
-        "version": "0.8.3",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "0.8.3"
-      ],
-      "artifacts": [
-        "IERC20"
       ]
     }
   }

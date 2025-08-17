@@ -43,7 +43,7 @@ async function main() {
   
   // Submit the value (this is the "shout")
   console.log("   Submitting shout...");
-  const tx1 = await voidContract.connect(screamer1).submitValue(
+  const tx1 = await voidContract.connect(screamer1).shout(
     queryId1,
     value1,
     nonce1,
@@ -83,7 +83,7 @@ async function main() {
   console.log(`   Nonce: ${nonce2}`);
   
   console.log("   Submitting shout...");
-  const tx2 = await voidContract.connect(screamer2).submitValue(
+  const tx2 = await voidContract.connect(screamer2).shout(
     queryId2,
     value2,
     nonce2,
@@ -123,7 +123,7 @@ async function main() {
     
     console.log(`   Shout ${i + 1}: Price $${prices[i]} (nonce: ${nonce})`);
     
-    const tx = await voidContract.connect(screamer1).submitValue(
+    const tx = await voidContract.connect(screamer1).shout(
       queryId3,
       value,
       nonce,
@@ -145,7 +145,7 @@ async function main() {
   console.log(`   Value: "Hello from The Void!"`);
   
   console.log("   Submitting shout...");
-  const tx4 = await voidContract.connect(screamer2).submitValue(
+  const tx4 = await voidContract.connect(screamer2).shout(
     simpleQueryId,
     value4,
     nonce4,
@@ -202,14 +202,14 @@ async function main() {
   
   try {
     console.log("   Trying to submit empty value...");
-    await voidContract.submitValue(queryId1, "0x", 1, queryData1);
+    await voidContract.shout(queryId1, "0x", 1, queryData1);
   } catch (error) {
     console.log(`   ❌ Expected error: ${error.reason || "value must be submitted"}`);
   }
   
   try {
     console.log("   Trying to submit with wrong nonce...");
-    await voidContract.submitValue(queryId1, ethers.toUtf8Bytes("wrong nonce"), 999, queryData1);
+    await voidContract.shout(queryId1, ethers.toUtf8Bytes("wrong nonce"), 999, queryData1);
   } catch (error) {
     console.log(`   ❌ Expected error: ${error.reason || "nonce must match timestamp index"}`);
   }

@@ -633,7 +633,7 @@ contract TheVoidUnsafe {
         _approve(
             _sender,
             msg.sender,
-            _allowances[_sender][address(this)] - _amount
+            _allowances[_sender][msg.sender] - _amount
         );
         return true;
     }

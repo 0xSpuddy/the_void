@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useAccount, useDisconnect } from 'wagmi'
 import { useVoidData } from '../hooks/useVoidData'
 
-const VoidViewer = ({ onBack }) => {
+const VoidViewer = ({ onBack, onViewBlob }) => {
   const { address } = useAccount()
   const { disconnect } = useDisconnect()
   const { shouts, isLoading, error, hasMore, fetchNextShout, clearCache, totalShouts } = useVoidData()
@@ -80,6 +80,13 @@ const VoidViewer = ({ onBack }) => {
           <div className="control-buttons">
             <button onClick={onBack} className="nav-button">
               ← Back to Interface
+            </button>
+            <button onClick={onViewBlob} className="nav-button" style={{
+              background: 'rgba(0, 255, 136, 0.1)',
+              border: '1px solid #00ff88',
+              color: '#00ff88'
+            }}>
+              Text Blob →
             </button>
             <button 
               onClick={clearCache} 

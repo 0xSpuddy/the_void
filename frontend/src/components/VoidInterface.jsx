@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useAccount, useDisconnect } from 'wagmi'
 import { useShout } from '../hooks/useShout'
 
-const VoidInterface = ({ onViewVoid }) => {
+const VoidInterface = ({ onViewVoid, onViewBlob }) => {
   const { address, isConnected } = useAccount()
   const { disconnect } = useDisconnect()
   const { shout, isLoading, error, success, isConfirmed, hash } = useShout()
@@ -73,13 +73,28 @@ const VoidInterface = ({ onViewVoid }) => {
           {isLoading ? 'EXECUTING...' : 'EXECUTE'}
         </button>
         
-        <button
-          className="peek-button"
-          onClick={onViewVoid}
-          style={{ fontSize: '0.9rem', padding: '0.6rem 1.2rem' }}
-        >
-          ./show_the_void
-        </button>
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <button
+            className="peek-button"
+            onClick={onViewVoid}
+            style={{ fontSize: '0.9rem', padding: '0.6rem 1.2rem' }}
+          >
+            ./show_the_void
+          </button>
+          <button
+            className="peek-button"
+            onClick={onViewBlob}
+            style={{ 
+              fontSize: '0.9rem', 
+              padding: '0.6rem 1.2rem',
+              background: 'rgba(0, 255, 136, 0.1)',
+              border: '1px solid #00ff88',
+              color: '#00ff88'
+            }}
+          >
+            ./text_blob
+          </button>
+        </div>
       </div>
 
       {showStatus && (

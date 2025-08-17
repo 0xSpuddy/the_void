@@ -3,6 +3,7 @@ import { WagmiProvider } from 'wagmi'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
 import { config } from './config/web3'
+import TextBlob from './components/TextBlob'
 import VoidInterface from './components/VoidInterface'
 import VoidViewer from './components/VoidViewer'
 
@@ -43,7 +44,7 @@ const ConnectWallet = () => {
 const VoidApp = () => {
   const { isConnected } = useAccount()
   const [hasClicked, setHasClicked] = useState(false)
-  const [currentView, setCurrentView] = useState('interface') // 'interface' or 'viewer'
+  const [currentView, setCurrentView] = useState('blob') // 'blob', 'interface', or 'viewer'
 
   const handlePeekClick = () => {
     setHasClicked(true)
@@ -57,12 +58,19 @@ const VoidApp = () => {
     setCurrentView('interface')
   }
 
+  const switchToBlob = () => {
+    setCurrentView('blob')
+  }
+
+  // Show blob by default
+  if (currentView === 'blob') {
+    return <TextBlob onShowInterface={switchToInterface} />
+  }
+
   return (
     <>
       <div className="void-background"></div>
       <div className="container">
-
-        
         {!isConnected && !hasClicked && (
           <button className="peek-button" onClick={handlePeekClick}>
             ./interface_with_void
@@ -74,11 +82,11 @@ const VoidApp = () => {
         )}
 
         {isConnected && currentView === 'interface' && (
-          <VoidInterface onViewVoid={switchToViewer} />
+          <VoidInterface onViewVoid={switchToViewer} onViewBlob={switchToBlob} />
         )}
 
         {isConnected && currentView === 'viewer' && (
-          <VoidViewer onBack={switchToInterface} />
+          <VoidViewer onBack={switchToInterface} onViewBlob={switchToBlob} />
         )}
       </div>
     </>

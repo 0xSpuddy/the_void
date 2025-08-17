@@ -141,11 +141,11 @@ def main():
         parser.error('Either provide a timestamp or use --all-reports flag')
     
     # Get RPC URL and Query ID from environment variables
-    rpc_url = os.getenv('RPC_URL')
+    rpc_url = os.getenv('SEPOLIA_RPC_URL')
     query_id = os.getenv('QUERY_ID')
     
     if not rpc_url:
-        print("Error: RPC_URL not found in environment variables or .env file")
+        print("Error: SEPOLIA_RPC_URL not found in environment variables or .env file")
         sys.exit(1)
     
     if not query_id:

@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
 import { config } from './config/web3'
 import VoidInterface from './components/VoidInterface'
+import VoidViewer from './components/VoidViewer'
 
 const queryClient = new QueryClient()
 
@@ -42,9 +43,18 @@ const ConnectWallet = () => {
 const VoidApp = () => {
   const { isConnected } = useAccount()
   const [hasClicked, setHasClicked] = useState(false)
+  const [currentView, setCurrentView] = useState('interface') // 'interface' or 'viewer'
 
   const handlePeekClick = () => {
     setHasClicked(true)
+  }
+
+  const switchToViewer = () => {
+    setCurrentView('viewer')
+  }
+
+  const switchToInterface = () => {
+    setCurrentView('interface')
   }
 
   return (
@@ -63,8 +73,12 @@ const VoidApp = () => {
           <ConnectWallet />
         )}
 
-        {isConnected && (
-          <VoidInterface />
+        {isConnected && currentView === 'interface' && (
+          <VoidInterface onViewVoid={switchToViewer} />
+        )}
+
+        {isConnected && currentView === 'viewer' && (
+          <VoidViewer onBack={switchToInterface} />
         )}
       </div>
     </>

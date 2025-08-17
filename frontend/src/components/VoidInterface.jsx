@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useAccount, useDisconnect } from 'wagmi'
 import { useShout } from '../hooks/useShout'
 
-const VoidInterface = () => {
+const VoidInterface = ({ onViewVoid }) => {
   const { address, isConnected } = useAccount()
   const { disconnect } = useDisconnect()
   const { shout, isLoading, error, success, isConfirmed, hash } = useShout()
@@ -64,13 +64,23 @@ const VoidInterface = () => {
         disabled={isLoading}
       />
       
-      <button
-        className={`shout-button ${isLoading ? 'loading' : ''}`}
-        onClick={handleShout}
-        disabled={isLoading || !message.trim()}
-      >
-        {isLoading ? 'EXECUTING...' : 'EXECUTE'}
-      </button>
+      <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
+        <button
+          className={`shout-button ${isLoading ? 'loading' : ''}`}
+          onClick={handleShout}
+          disabled={isLoading || !message.trim()}
+        >
+          {isLoading ? 'EXECUTING...' : 'EXECUTE'}
+        </button>
+        
+        <button
+          className="peek-button"
+          onClick={onViewVoid}
+          style={{ fontSize: '0.9rem', padding: '0.6rem 1.2rem' }}
+        >
+          ./show_the_void
+        </button>
+      </div>
 
       {showStatus && (
         <div className="fade-in">

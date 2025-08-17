@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+"""
+Query data from TheVoidUnsafe oracle contract using getDataBefore function.
+This script works with the TheVoidUnsafe contract deployed on Sepolia testnet.
+"""
 
 import argparse
 import csv
@@ -17,19 +21,26 @@ except ImportError:
     print("Warning: python-dotenv not found. Install with: pip install python-dotenv")
     print("Falling back to environment variables only.")
 
-CONTRACT_ADDRESS = "0x8cFc184c877154a8F9ffE0fe75649dbe5e2DBEbf"
-ABI_FILE = "oracle_abi.json"
+CONTRACT_ADDRESS = "0xCF6b75b6f2784BFBE2282010C638d0E9197cAbd7"
+# Use absolute path relative to script location for robustness
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+ABI_FILE = os.path.join(SCRIPT_DIR, "..", "artifacts", "contracts", "TheVoidUnsafe.sol", "TheVoidUnsafe.json")
 
 def load_abi():
-    """Load the contract ABI from the JSON file."""
+    """Load the TheVoidUnsafe contract ABI from the Hardhat artifact JSON file."""
     try:
         with open(ABI_FILE, 'r') as f:
-            return json.load(f)
+            artifact = json.load(f)
+            # Extract ABI from the artifact file
+            return artifact['abi']
     except FileNotFoundError:
         print(f"Error: {ABI_FILE} not found")
         sys.exit(1)
     except json.JSONDecodeError:
         print(f"Error: Invalid JSON in {ABI_FILE}")
+        sys.exit(1)
+    except KeyError:
+        print(f"Error: 'abi' key not found in {ABI_FILE}")
         sys.exit(1)
 
 def get_data_before(contract, query_id_bytes, timestamp):
@@ -115,7 +126,7 @@ def save_to_csv(reports, filename):
     print(f"Saved {len(reports)} reports to {filename}")
 
 def main():
-    parser = argparse.ArgumentParser(description='Query Tellor oracle data')
+    parser = argparse.ArgumentParser(description='Query TheVoidUnsafe oracle data')
     parser.add_argument('--all-reports', action='store_true', 
                        help='Collect all reports going back in time and save to CSV')
     parser.add_argument('timestamp', nargs='?', type=int,

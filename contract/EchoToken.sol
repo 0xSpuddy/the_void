@@ -1,6 +1,21 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity 0.8.19;
 
+// ENS Reverse Registrar interface
+interface IReverseRegistrar {
+    function node(address addr) external pure returns (bytes32);
+}
+
+// ENS Registry interface
+interface IENS {
+    function resolver(bytes32 node) external view returns (address);
+}
+
+// ENS Resolver interface for name resolution
+interface INameResolver {
+    function name(bytes32 node) external view returns (string memory);
+}
+
 contract EchoToken{
 
     //storage
@@ -9,10 +24,28 @@ contract EchoToken{
     uint256 internal supply;//totalSupply
     mapping(address => uint) balance;
     mapping(address => mapping(address=>uint)) userAllowance;//allowance
+    
+    // ENS contract addresses (mainnet)
+    address constant ENS_REGISTRY = 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e;
+    address constant REVERSE_REGISTRAR = 0x084b1c3C81545d370f3634392De611CaaBFf8148;
+    
+    // Configuration
+    bool public ensCheckEnabled = true;
+    address public owner;
+    
+    // Events
+    event ENSCheckFailed(address recipient, string reason);
+    event ENSCheckStatusChanged(bool enabled);
 
     //events
     event Approval(address indexed _src, address indexed _dst, uint _amt);
     event Transfer(address indexed _src, address indexed _dst, uint _amt);
+
+    //modifiers
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only owner can call this function");
+        _;
+    }
 
     //functions
     /**
@@ -23,6 +56,7 @@ contract EchoToken{
     constructor(string memory _name, string memory _symbol){
         tokenName = _name;
         tokenSymbol = _symbol;
+        owner = msg.sender;
     }
 
     /**
@@ -113,8 +147,57 @@ contract EchoToken{
     function totalSupply() external view returns (uint256) {
         return supply;
     }
+    
+    /**
+     * @dev checks if an address has a configured primary ENS name (public view)
+     * @param _addr address to check for ENS name
+     * @return bool true if address has a valid ENS name, false otherwise
+     */
+    function hasENSName(address _addr) external view returns (bool) {
+        return _hasENSName(_addr);
+    }
+    
+    /**
+     * @dev allows owner to toggle ENS checking functionality
+     * @param _enabled whether ENS checking should be enabled
+     */
+    function setENSCheckEnabled(bool _enabled) external onlyOwner {
+        ensCheckEnabled = _enabled;
+        emit ENSCheckStatusChanged(_enabled);
+    }
 
     //internal
+    
+    /**
+     * @dev checks if an address has a configured primary ENS name
+     * @param _addr address to check for ENS name
+     * @return bool true if address has a valid ENS name, false otherwise
+     */
+    function _hasENSName(address _addr) internal view returns (bool) {
+        try IReverseRegistrar(REVERSE_REGISTRAR).node(_addr) returns (bytes32 node) {
+            if (node == bytes32(0)) {
+                return false;
+            }
+            
+            try IENS(ENS_REGISTRY).resolver(node) returns (address resolver) {
+                if (resolver == address(0)) {
+                    return false;
+                }
+                
+                try INameResolver(resolver).name(node) returns (string memory ensName) {
+                    // Check if the returned name is not empty
+                    return bytes(ensName).length > 0;
+                } catch {
+                    return false;
+                }
+            } catch {
+                return false;
+            }
+        } catch {
+            return false;
+        }
+    }
+    
     /**
      * @dev burns tokens
      * @param _from address to burn tokens from
@@ -144,6 +227,12 @@ contract EchoToken{
      * @param _amount amount of token to send
      */
     function _move(address _src, address _dst, uint256 _amount) internal virtual{
+        // Check if recipient has ENS name configured before allowing transfer (if enabled)
+        if (ensCheckEnabled && !_hasENSName(_dst)) {
+            emit ENSCheckFailed(_dst, "Recipient does not have a configured primary ENS name");
+            revert("Transfer failed: Recipient must have a configured primary ENS name");
+        }
+        
         balance[_src] = balance[_src] - _amount;//will overflow if too big
         balance[_dst] = balance[_dst] + _amount;
         emit Transfer(_src, _dst, _amount);

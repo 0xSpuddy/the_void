@@ -2,3 +2,5 @@ CLAUDE.md
 void-app/.env
 node_modules
 .env
+backend/__pycache__/get_data_before.cpython-312.pyc
+__pycache__/

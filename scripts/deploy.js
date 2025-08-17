@@ -86,6 +86,33 @@ async function main() {
   
   console.log("📄 Deployment info saved to:", deploymentFile);
   
+  // Update .env file with new contract address
+  const envPath = path.join(__dirname, '..', '.env');
+  try {
+    let envContent = '';
+    if (fs.existsSync(envPath)) {
+      envContent = fs.readFileSync(envPath, 'utf8');
+    }
+    
+    // Update or add THE_VOID_CONTRACT_ADDR
+    const contractAddrRegex = /^THE_VOID_CONTRACT_ADDR=.*$/m;
+    const newContractLine = `THE_VOID_CONTRACT_ADDR=${voidAddress}`;
+    
+    if (contractAddrRegex.test(envContent)) {
+      envContent = envContent.replace(contractAddrRegex, newContractLine);
+    } else {
+      envContent += envContent.endsWith('\n') ? '' : '\n';
+      envContent += `${newContractLine}\n`;
+    }
+    
+    fs.writeFileSync(envPath, envContent);
+    console.log("🔄 Updated .env file with new contract address");
+  } catch (error) {
+    console.log("⚠️  Could not update .env file:", error.message);
+    console.log("💡 Please manually add to .env file:");
+    console.log(`THE_VOID_CONTRACT_ADDR=${voidAddress}`);
+  }
+  
   // Verification instructions
   console.log("\n🔍 To verify the contract, run:");
   console.log(`npx hardhat verify --network sepolia ${voidAddress}`);

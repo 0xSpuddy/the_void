@@ -21,7 +21,7 @@ except ImportError:
     print("Warning: python-dotenv not found. Install with: pip install python-dotenv")
     print("Falling back to environment variables only.")
 
-CONTRACT_ADDRESS = "0xCF6b75b6f2784BFBE2282010C638d0E9197cAbd7"
+CONTRACT_ADDRESS = os.getenv("THE_VOID_CONTRACT_ADDR", "0xCF6b75b6f2784BFBE2282010C638d0E9197cAbd7")
 # Use absolute path relative to script location for robustness
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ABI_FILE = os.path.join(SCRIPT_DIR, "..", "artifacts", "contracts", "TheVoidUnsafe.sol", "TheVoidUnsafe.json")

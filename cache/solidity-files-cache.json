@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/home/spuddy/projects/the_void/contracts/TheVoidUnsafe.sol": {
-      "lastModificationDate": 1755390743908,
-      "contentHash": "eb24147f37b36d6c7fafe5990102e4a0",
+      "lastModificationDate": 1755398073243,
+      "contentHash": "9e288d8745f96d0c300521aaa01217bb",
       "sourceName": "contracts/TheVoidUnsafe.sol",
       "solcConfig": {
         "version": "0.8.19",

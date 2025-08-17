@@ -148,7 +148,8 @@ contract TheVoidUnsafe {
     }
 
     /**
-     * @dev A mock function to submit a value to be read without shouter staking needed
+     * @dev A function to submit a value to be read. Shouters receive timeBasedReward tokens
+     * if at least 6.9 minutes (414 seconds) have passed since their last shout
      * @param _queryId the ID to associate the value to
      * @param _value the value for the queryId
      * @param _nonce the current value count for the query id
@@ -170,11 +171,19 @@ contract TheVoidUnsafe {
             _queryId == keccak256(_queryData) || uint256(_queryId) <= 100,
             "id must be hash of bytes data"
         );
+        
+        // Check if shouter is eligible for reward (6.9 minutes = 414 seconds cooldown)
+        StakeInfo storage _shouter = shouterDetails[msg.sender];
+        if (block.timestamp - _shouter.shouterLastTimestamp >= 414) {
+            // Mint reward tokens to the shouter
+            _mint(msg.sender, timeBasedReward);
+        }
+        
         values[_queryId][block.timestamp] = _value;
         timestamps[_queryId].push(block.timestamp);
         shouterByTimestamp[_queryId][block.timestamp] = msg.sender;
-        shouterDetails[msg.sender].shouterLastTimestamp = block.timestamp;
-        shouterDetails[msg.sender].reportsSubmitted++;
+        _shouter.shouterLastTimestamp = block.timestamp;
+        _shouter.reportsSubmitted++;
         emit NewShout(
             _queryId,
             block.timestamp,

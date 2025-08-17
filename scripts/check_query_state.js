@@ -1,12 +1,16 @@
 import hre from "hardhat";
+import dotenv from "dotenv";
 const { ethers } = hre;
+
+// Load environment variables
+dotenv.config();
 
 async function main() {
   console.log("🔍 Checking Query State");
   console.log("=" .repeat(30));
 
   // Contract setup
-  const contractAddress = "0xC20C86437C8A9b0207706b8aDe98892Cf452f502";
+  const contractAddress = process.env.THE_VOID_CONTRACT_ADDR || "0xCF6b75b6f2784BFBE2282010C638d0E9197cAbd7";
   const TheVoidUnsafe = await ethers.getContractFactory("TheVoidUnsafe");
   const contract = TheVoidUnsafe.attach(contractAddress);
   

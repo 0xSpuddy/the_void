@@ -1,5 +1,9 @@
 import hre from "hardhat";
+import dotenv from "dotenv";
 const { ethers } = hre;
+
+// Load environment variables
+dotenv.config();
 
 async function main() {
   console.log("🔊 Testing TheVoidUnsafe Shout with Proper Encoding");
@@ -9,8 +13,8 @@ async function main() {
   const [owner] = await ethers.getSigners();
   console.log(`👤 Signer: ${owner.address}`);
   
-  // Connect to deployed contract (replace with your contract address)
-  const contractAddress = "0xC20C86437C8A9b0207706b8aDe98892Cf452f502"; // From your error
+  // Connect to deployed contract using environment variable
+  const contractAddress = process.env.THE_VOID_CONTRACT_ADDR || "0xCF6b75b6f2784BFBE2282010C638d0E9197cAbd7";
   const TheVoidUnsafe = await ethers.getContractFactory("TheVoidUnsafe");
   const voidContract = TheVoidUnsafe.attach(contractAddress);
   

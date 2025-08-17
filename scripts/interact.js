@@ -2,11 +2,11 @@ const { ethers } = require("hardhat");
 
 async function main() {
   // Configuration - Update these values
-  const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS || "YOUR_DEPLOYED_CONTRACT_ADDRESS";
+  const CONTRACT_ADDRESS = process.env.THE_VOID_CONTRACT_ADDR || "YOUR_DEPLOYED_CONTRACT_ADDRESS";
   
   if (CONTRACT_ADDRESS === "YOUR_DEPLOYED_CONTRACT_ADDRESS") {
-    console.log("❌ Please set CONTRACT_ADDRESS environment variable or update the script");
-    console.log("Example: CONTRACT_ADDRESS=0x123... npx hardhat run scripts/interact.js");
+    console.log("❌ Please set THE_VOID_CONTRACT_ADDR environment variable or update the script");
+    console.log("Example: THE_VOID_CONTRACT_ADDR=0x123... npx hardhat run scripts/interact.js");
     process.exit(1);
   }
 

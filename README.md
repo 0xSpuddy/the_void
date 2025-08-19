@@ -1,3 +1,8 @@
+***Note from the creator
+The code in this repo is spaghetti slop. Do not use.
+It's just an idea that I had, and I think it would be fun!
+You should literally never run this code.***
+
 # The Void
 
 A dramatic Web3 application for shouting into The Void smart contract on Sepolia testnet.

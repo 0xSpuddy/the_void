@@ -1,7 +1,7 @@
-***Note from the creator
-The code in this repo is spaghetti slop. Do not use.
-It's just an idea that I had, and I think it would be fun!
-You should literally never run this code.***
+***Note from the creator:***
+***The code in this repo is spaghetti slop. Do not use!***
+***It's just an idea that I had. I think it would be fun.***
+***You should literally never run this code.***
 
 # The Void
 
